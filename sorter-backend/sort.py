@@ -1,10 +1,10 @@
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
-birdy_uri = 'spotify:artist:2YZyLoL8N0Wb9xBt1NhZWg'
+kendrick_lamar_uri = 'spotify:artist:2YZyLoL8N0Wb9xBt1NhZWg'
 spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
 
-results = spotify.artist_albums(birdy_uri, album_type='album')
+results = spotify.artist_albums(kendrick_lamar_uri, album_type='album')
 albums = results['items']
 while results['next']:
     results = spotify.next(results)
@@ -12,3 +12,6 @@ while results['next']:
 
 for album in albums:
     print(album['name'])
+    album_id = album['id']
+    album_songs = spotify.album_tracks(album_id)
+    print(album_songs)
