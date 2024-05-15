@@ -20,6 +20,16 @@ def main():
     removeSongs(artistCatalog, songCount)
     sort()
 
+
+
+
+
+# SONG INITIALIZATIO NOT WORKING>??????
+# Laufey count is at 76, should be 92 upon first initalization
+
+
+
+
 def initLists(albums, songCount):
     # dictionary of albums and their songs with respective info
     # format:
