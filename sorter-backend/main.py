@@ -21,13 +21,7 @@ def main():
     sort()
 
 
-
-
-
-# SONG INITIALIZATIO NOT WORKING>??????
-# Laufey count is at 76, should be 92 upon first initalization
-
-
+# Song Initialization Works, Need to Figure out Naming Convention
 
 
 def initLists(albums, songCount):
@@ -39,6 +33,10 @@ def initLists(albums, songCount):
     #   artistCatalog[album name][2] = song URI
     #   artistCatalog[album name][3] = song art (based on album art)
     artistCatalog = dict()
+
+    artistAlbums = []
+    albumList = []
+    albumCount = 1
     
     # grabs album names and info given the passed-in list of albums
     for album in albums:
@@ -60,7 +58,13 @@ def initLists(albums, songCount):
             tempList.append(songInfo)
             songCount += 1
         
-        artistCatalog.update({album['name']: tempList})
+        if (album['name'] in albumList):
+            tempName = album['name'] + " Duplicate " + str(albumCount)
+            albumCount += 1
+            artistCatalog.update({tempName: tempList})
+        else:
+            artistCatalog.update({album['name']: tempList})
+        albumList.append(album['name'])
     
     return artistCatalog
 
@@ -144,7 +148,6 @@ def removeSongs(artistCatalog, songCount):
                     print("Could not find:", songRemove)
                     print()
                 
-
 
 def sort():
     print()

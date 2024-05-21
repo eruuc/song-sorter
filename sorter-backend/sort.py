@@ -12,6 +12,3 @@ while results['next']:
 
 for album in albums:
     print(album['name'])
-    album_id = album['id']
-    album_songs = spotify.album_tracks(album_id)
-    print(album_songs)
