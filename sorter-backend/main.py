@@ -41,12 +41,17 @@ def initLists(albums):
             songArt.append(albumArt)
             songAlbum.append(album['name'])
 
+    beginningWeight = 1/(len(songNames))
+    weightList = []
+    for x in range(0, len(songNames)):
+        weightList.append(beginningWeight)
+
     songDict = {'name':songNames,
                      'album':songAlbum,
                      'score':songScores,
                      'uri':songURIs,
-                     'art':songArt}
-
+                     'art':songArt,
+                     'weight':weightList}
 
     artistCatalog = pd.DataFrame(songDict)
     return artistCatalog
@@ -110,13 +115,15 @@ def removeSongs(artistCatalog):
 
 def sort(artistCatalog):
     artistCatalog.sort_values(by=['score'])
-    duplicatedSeries = artistCatalog.duplicated(subset=['score'])
-    duplicatedRows = duplicatedSeries.to_list()
+    #duplicatedList = artistCatalog.duplicated(subset=['score']).to_list()
 
-    dummyCatalog = artistCatalog
+    #scoreCounts = artistCatalog.value_counts("score")
+    
+    #while (len(scoreCounts) != len(artistCatalog.index)):
 
-    while (True in duplicatedRows):
-        print()
+    #while (True in duplicatedList):
+        #print()
+    print()
 
 
 main()
