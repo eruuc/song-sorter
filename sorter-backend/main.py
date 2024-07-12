@@ -10,13 +10,12 @@ cors = CORS(app, origins='*')
 
 spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
 
-@app.route("/api/users", methods=['GET'])
-def users():
+@app.route("/api/songs", methods=['GET'])
+def songs():
     return jsonify(
         {
             "users": [
-                'eric',
-                'test'
+                'eric'
             ]
         }
     )

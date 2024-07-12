@@ -10,7 +10,7 @@ function Sorter() {
   const[array, setArray] = useState([]);
 
   const fetchAPI = async() => {
-    const response = await axios.get("http://localhost:8080/api/users");
+    const response = await axios.get("http://localhost:8080/api/songs");
     console.log(response.data.users);
     setArray(response.data.users);
   }
@@ -34,13 +34,6 @@ function Sorter() {
             <p className = 'song-name'>Song 2</p>
           </div>
         </div>
-        
-        {array.map((user, index) => (
-          <div key={index}>
-            <span>{user}</span>
-            <br></br>
-          </div>
-        ))}
       </div>
 
     </>
