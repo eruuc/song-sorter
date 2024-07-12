@@ -1,8 +1,23 @@
+import { useState, useEffect } from "react"
 import everythingikaboutlove from '/src/assets/imgs/everythingikaboutlove.jpg'
 import bewitchedgoddessed from '/src/assets/imgs/bewitchedgoddessed.jpg'
+import axios from "axios"
 import './App.css'
 
+
 function App() {
+
+  const[array, setArray] = useState([]);
+
+  const fetchAPI = async() => {
+    const response = await axios.get("http://localhost:8080/api/users");
+    console.log(response.data.users);
+    setArray(response.data.users);
+  }
+
+  useEffect(() => {
+    fetchAPI()
+  }, [])
 
   return (
     <>
@@ -19,7 +34,15 @@ function App() {
             <p className = 'song-name'>Song 2</p>
           </div>
         </div>
+        
+        {array.map((user, index) => (
+          <div key={index}>
+            <span>{user}</span>
+            <br></br>
+          </div>
+        ))}
       </div>
+
     </>
   )
 }

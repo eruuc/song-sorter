@@ -14,6 +14,11 @@
   src: url('/src/assets/fonts/FranieVariableTest-Black-BF64c31f3ca614b.otf') format("opentype");
 }
 
+@font-face {
+  font-family: 'FranieRegular';
+  src: url('/src/assets/fonts/FranieVariableTest-Regular-BF64c31f3d73b64.otf') format("opentype");
+}
+
 :root {
   font-family: "FranieBlack", "Times New Roman", Sans-Serif;
   display: grid;
@@ -38,7 +43,7 @@
 
 .title {
   font-size: xx-large;
-  font-family: "FranieBlack", "Times New Roman", Sans-Serif;
+  font-family: "FranieSemiBold", "Times New Roman", Sans-Serif;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -84,10 +89,10 @@
 
 .song-name {
   font-size: 35px;
-  font-family: "FranieSemiBold", 'Times New Roman', sans-serif;
+  font-family: "FranieRegular", 'Times New Roman', sans-serif;
 }
 
 .image {
-  height: 500px;
-  width: 500px;
+  height: 400px;
+  width: 400px;
 }

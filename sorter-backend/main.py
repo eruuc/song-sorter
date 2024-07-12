@@ -2,8 +2,24 @@ import spotipy
 import pandas as pd
 import spotipy.util as util
 from spotipy.oauth2 import SpotifyClientCredentials
+from flask import Flask, jsonify
+from flask_cors import CORS
+
+app = Flask(__name__)
+cors = CORS(app, origins='*')
 
 spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
+
+@app.route("/api/users", methods=['GET'])
+def users():
+    return jsonify(
+        {
+            "users": [
+                'eric',
+                'test'
+            ]
+        }
+    )
 
 def main():
     # main program to start
@@ -126,4 +142,5 @@ def sort(artistCatalog):
     print()
 
 
-main()
+if __name__ == "__main__":
+    app.run(debug=True, port=8080)
