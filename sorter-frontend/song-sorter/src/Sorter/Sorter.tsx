@@ -2,10 +2,10 @@ import { useState, useEffect } from "react"
 import everythingikaboutlove from '/src/assets/imgs/everythingikaboutlove.jpg'
 import bewitchedgoddessed from '/src/assets/imgs/bewitchedgoddessed.jpg'
 import axios from "axios"
-import './App.css'
+import './Sorter.css'
 
 
-function App() {
+function Sorter() {
 
   const[array, setArray] = useState([]);
 
@@ -47,4 +47,4 @@ function App() {
   )
 }
 
-export default App
+export default Sorter

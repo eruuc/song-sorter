@@ -1,0 +1,42 @@
+/*
+  FOR A LIGHT GRAY, USE THE BELOW
+  "cool" gray: #242424
+  gray: #484848;
+*/
+
+@font-face {
+    font-family: 'FranieSemiBold';
+    src: url('/src/assets/fonts/FranieVariableTest-SemiBold-BF64c31f3d7b0b9.otf') format("opentype");
+  }
+  
+  @font-face {
+    font-family: 'FranieBlack';
+    src: url('/src/assets/fonts/FranieVariableTest-Black-BF64c31f3ca614b.otf') format("opentype");
+  }
+  
+  @font-face {
+    font-family: 'FranieRegular';
+    src: url('/src/assets/fonts/FranieVariableTest-Regular-BF64c31f3d73b64.otf') format("opentype");
+  }
+  
+  :root {
+    font-family: "FranieBlack", "Times New Roman", Sans-Serif;
+    display: grid;
+    place-items: center;
+    background-color: black;
+    color: black;
+  }
+  
+  
+  .main-container {
+    /* background-color: black; */
+    background-color: #242424;
+    height: 95vh;
+    width: 98vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    border-radius: 25px;
+  }
