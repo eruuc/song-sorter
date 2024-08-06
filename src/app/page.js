@@ -1,96 +1,69 @@
 'use client'
 
-import * as React from 'react';
+import "./globals.css";
+import React, { useEffect } from "react"
 import { useState } from 'react';
-import { Box, Stack, Button, TextField } from '@mui/material'
-import useMediaQuery from '@mui/material/useMediaQuery';
-import Paper from '@mui/material/Paper';
-import { styled } from '@mui/material/styles';
+import Title from './components/Title'
+import ArtistSelect from "./components/ArtistSelect";
+
+const CLIENT_ID = "2e3c92cfaab24eb695ec8408d4fc1497"
+const CLIENT_SECRET = "c9cd257276934fb89421c7e171e75df7"
 
 export default function Home() {
 
-  const [artist, setArtist] = useState('RT')
-
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const [accessToken, setAccessToken] = useState("");
+  const [artist, setArtist] = useState("")
+  const [currentSongs, setCurrentSongs] = useState([]);
+  const [albums, setAlbums] = useState([])
   
-  const CSSTextField = styled(TextField)({
-    '& label.Mui-focused': {
-      color: 'white',
-    },
-    '& .MuiInput-underline:after': {
-      borderBottomColor: 'white',
-    },
-    '& .MuiInputLabel-root': {
-      color: 'white',
-    },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: 'white',
-      },
-      '&:hover fieldset': {
-        borderColor: 'white',
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: 'white',
-      },
-    },
-  });
+  const [songs, setSongs] = useState([]);
+  const [rankedSongs, setRankedSongs] = useState([]);
 
+  useEffect(() => {
+    var authParameters = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: 'grant_type=client_credentials&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET
+    }
 
-  const Title = styled(Paper)(({ theme }) => ({
-    backgroundColor: '#242424',
-    ...theme.typography.body2,
-    padding: theme.spacing(4),
-    textAlign: 'center',
-    fontFamily: ['FranieSemiBold', 'sans-serif'],
-    fontSize: '50px',
-    color: '#fff',
-  }));
+    fetch('https://accounts.spotify.com/api/token', authParameters)
+      .then(result => result.json())
+      .then(data => setAccessToken(data.access_token))
+  }, [])
 
-  function findArtist() {
-    console.log(artist);
+  async function search() {
+    var searchParameters = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + accessToken,
+      }
+    }
+
+    var artistID = await fetch('https://api.spotify.com/v1/search?q=' + artist + '&type=artist', searchParameters)
+      .then(response => response.json())
+      .then(data => { return data.artists.items[0].id })
+
+    var returnedAlbums = await fetch('https://api.spotify.com/v1/artists/' + artistID + '/albums' + '?include_groups=album&market=US&limit=50', searchParameters)
+      .then(response => response.json())
+      .then(data => { setAlbums(data.items); })
   }
 
-
+  
   return (
-    <Box
-      width="100vw"
-      height="100vh"
-      display={'flex'}
-      justifyContent={'center'}
-      flexDirection={'column'}
-      alignItems={'center'}
-      backgroundColor = '#242424'
-      gap={1}>
-        <Stack
-          height="850px"
-          width="1200px"
-          direction={'column'}
-          display={'flex'}
-          alignItems={'center'}
-          spacing={1}
-          color={'white'}>
-            <Title elevation={24} sx = {{border: '2px solid #fff', borderRadius: '100px'}}>Spotify Song Sorter</Title>
-            <Box height="3500px"></Box>
-            <Stack
-              height="700px"
-              width="200px"
-              direction={'row'}
-              display={'flex'}
-              spacing={2}
-              justifyContent={'center'}
-              alignItems={'center'}
-              >
-              
-                <CSSTextField
-                  id="outlined-basic"
-                  label="Artist"
-                  onChange={(e) => setArtist(e.target.value)}
-                  sx={{ input: { color: 'white', borderColor: 'white' } }}
-                  />
-                <Button variant="contained" onClick={findArtist}>Submit</Button>
-            </Stack>
-        </Stack>
-    </Box>
+    <>
+      <Title />
+      <div className="main-container">
+        <div className="second-container">
+          {<ArtistSelect albums={albums} />}
+          <div className="inputs">
+            <input className="artist-input" id="artist-name" onChange={(e) => setArtist(e.target.value)}></input>
+            <button className="submit-button" id="submit-button" onClick={search}>Submit</button>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }

@@ -1,0 +1,23 @@
+
+.title-container {
+    width: 100vw;
+    height: 15vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-color: black;
+    /* background-color: #242424; */
+}
+
+
+.title {
+    color: white;
+    font: "FranieSemiBold";
+    font-size: 50px;
+    border: 5px solid;
+    border-radius: 50px;
+    border-color: #1DB954;
+    padding: 25px;
+    font-family: "FranieSemiBold", "Arial", Sans-Serif;
+}

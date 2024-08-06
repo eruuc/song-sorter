@@ -1,6 +1,102 @@
 
+@font-face {
+  font-family: 'FranieSemiBold';
+  src: url("./assets/fonts/FranieVariableTest-SemiBold.otf") format("opentype");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'FranieBlack';
+  src: url('./assets/fonts/FranieVariableTest-Black-BF64c31f3ca614b.otf') format("opentype");
+}
+
+@font-face {
+  font-family: 'FranieRegular';
+  src: url('./assets/fonts/FranieVariableTest-Regular-BF64c31f3d73b64.otf') format("opentype");
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  font-family: "FranieRegular", "Arial", Sans-Serif;
+}
+
+/*
+
+Spotify Green: #1DB954
+Spotify Black: #191414
+Good Grey: #242424
+
+*/
+
+.main-container {
+  width: 100vw;
+  height: 85vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  background-color: #242424;
+}
+
+.second-container {
+  width: 80vw;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  background-color: #242424;
+}
+
+.inputs {
+  padding: 20px;
+}
+
+.submit-button {
+  background-color: #1DB954;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.artist-input {
+  height: 50px;
+  width: 475px;
+}
+
+.artist-selection {
+  height: 1000px;
+  width: 1000px;
+}
+
+
+
+
+
+
+.song-comparison {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.song {
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.song img {
+  width: 200px;
+  height: 200px;
+}
+
+.song p {
+  text-align: center;
+  color: white
 }
