@@ -13,9 +13,11 @@ const NEXT_PUBLIC_SPOTIFY_SECRET = process.env.NEXT_PUBLIC_SPOTIFY_SECRET
 
 export default function Home() {
 
+  var artist = ""
   const [artistID, setArtistID] = useState("")
   const [accessToken, setAccessToken] = useState("");
-  const [artist, setArtist] = useState("")
+
+  //const [artist, setArtist] = useState("")
   const [currentSongs, setCurrentSongs] = useState([]);
   const [albums, setAlbums] = useState([])
   const [startRanking, setStartRanking] = useState(false);
@@ -44,8 +46,8 @@ export default function Home() {
       .then(data => setAccessToken(data.access_token))
   }, [])
 
-  async function gatherData() {
-    await search();
+  function gatherData() {
+    search();
     if (albums.length === 0) {
       setStartRanking(false);
     } else {
@@ -54,6 +56,8 @@ export default function Home() {
   }
 
   async function search() {
+    console.log(artist)
+
     var searchParameters = {
       method: 'GET',
       headers: {
@@ -65,6 +69,7 @@ export default function Home() {
     var artistID = await fetch('https://api.spotify.com/v1/search?q=' + artist + '&type=artist', searchParameters)
       .then(response => response.json())
       .then(data => {
+        console.log(data)
         return data.artists.items[0].id 
       })
 
@@ -79,36 +84,42 @@ export default function Home() {
     var albumValues = returnedAlbums.map(function getAlbumID(album) {
       return album.id
     })
-
-    const songPromises = await albumValues.map(async (albumID) => {
-      var songs = await fetch('https://api.spotify.com/v1/albums/' + albumID + '/?tracks?market=US&limit=50', searchParameters)
-      .then(response => response.json())
-      .then(data => {
-        return data.tracks.items;
-      })})
-
-    const songValues = await Promise.all(songPromises);
-
-    // await albumValues.forEach(async (albumID) => {
-    //   var songs = await fetch('https://api.spotify.com/v1/albums/' + albumID + '/?tracks?market=US&limit=50', searchParameters)
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     return data.tracks.items;
-    //   })
-
-    //   songs.forEach((song) => {
-    //     songValues.push(song)
-    //   })
-
-    //   console.log(songValues)
-
-    // });
-
-    console.log(songValues)
-    setSongList(songValues)
-    console.log(songs)
   }
 
+  function handleKeyDown(event) {
+    if (event.keyCode === 13) {
+      console.log('Enter key pressed!')
+      console.log('Artist name: ' + artist)
+    } else {
+      artist = (artist + String.fromCharCode(event.keyCode))
+    }
+  }
+
+  function Test({boolean}){
+    return(
+      <div>
+        {boolean && <p>This rendered succesfully!</p>}
+      </div>
+    )
+  }
+
+  function ArtistInput() {
+    return (
+      <input
+        className="artist-input"
+        id="artist-name"
+        type="text"
+        onKeyDown={event => {
+          if (event.key === "Enter") {
+            search()
+            setStartRanking(true)
+          } else if (event.key != "Shift" && event.key != "Control" && event.key != "Alt"){
+            artist = artist + event.key
+          }
+        }}
+      />
+    )
+  }
 
   return (
     <>
@@ -118,10 +129,9 @@ export default function Home() {
           {songList.map((song) => {
             return (<p>{song.name}</p>)
           })}
-          {startRanking && <ArtistSelect songList={songList} albums={albums} />}
+          <Test boolean={startRanking}/>
           <div className="inputs">
-            <input className="artist-input" id="artist-name" onChange={(e) => setArtist(e.target.value)}></input>
-            <button className="submit-button" id="submit-button" onClick={gatherData}>Submit</button>
+            <ArtistInput />
           </div>
         </div>
       </div>
