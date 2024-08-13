@@ -21,6 +21,7 @@ export default function Home() {
   const [currentSongs, setCurrentSongs] = useState([]);
   const [albums, setAlbums] = useState([])
   const [startRanking, setStartRanking] = useState(false);
+  const [finishedRanking, setFinishedRanking] = useState(false)
   
   const [songs, setSongs] = useState([]);
   const [rankedSongs, setRankedSongs] = useState([]);
@@ -86,19 +87,10 @@ export default function Home() {
     })
   }
 
-  function handleKeyDown(event) {
-    if (event.keyCode === 13) {
-      console.log('Enter key pressed!')
-      console.log('Artist name: ' + artist)
-    } else {
-      artist = (artist + String.fromCharCode(event.keyCode))
-    }
-  }
-
-  function Test({boolean}){
+  function FinishedSorting(){
     return(
       <div>
-        {boolean && <p>This rendered succesfully!</p>}
+        <p>Sorting complete!</p>
       </div>
     )
   }
@@ -113,6 +105,8 @@ export default function Home() {
           if (event.key === "Enter") {
             search()
             setStartRanking(true)
+          } else if (event.key == "Backspace") {
+            artist = artist.substring(0, artist.length - 1)
           } else if (event.key != "Shift" && event.key != "Control" && event.key != "Alt"){
             artist = artist + event.key
           }
@@ -121,15 +115,55 @@ export default function Home() {
     )
   }
 
+  function checkDuplicates(albumScores) {
+    const albumScoreIterator = albumScores.values();
+    const scores = []
+
+    for (let index = 0; i < albumScores.size(); i++) {
+      let value = albumScoreIterator.next().value
+      if (!(albumScoreIterator.next().value in scores)) {
+        setFinishedRanking(true)
+      } else {
+        scores.push(value)
+      }
+    }
+  }
+
+
+  function SelectArtist() {
+    let albumScores = new Map()
+    let showScores = true;
+
+    albums.map((album) => {
+      albumScores.set(album, 0)
+    })
+
+    while (!finishedRanking) {
+      checkDuplicates(albumScores)
+
+      const dictValues = albumScores.entries()
+      for (let i = 0; i < albumScores.size(); i++) {
+
+      }
+      if (placeholder) {
+      
+      }
+    }
+
+
+    return (
+      <div>
+        <p>Sorting start!</p>
+      </div>)
+  }
+
   return (
     <>
       <Title />
       <div className="main-container">
         <div className="second-container">
-          {songList.map((song) => {
-            return (<p>{song.name}</p>)
-          })}
-          <Test boolean={startRanking}/>
+          {startRanking && <SelectArtist/>}
+          {finishedRanking && <FinishedSorting/>}
           <div className="inputs">
             <ArtistInput />
           </div>
